@@ -5,9 +5,9 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-#define MatrixNumber 1000
-#define NO_THREAD 25
-#define STEP (MatrixNumber/NO_THREAD)
+#define MatrixNumber 		1000
+#define NO_THREAD		25
+#define STEP 			(MatrixNumber/NO_THREAD)
 
 int **a, **b,**c;
 
@@ -18,6 +18,7 @@ void
 Matrix(int rows, int cols)
 {
 	int i, j;
+	srand(MatrixNumber);
 
 	a = (int**)malloc(sizeof(int*)*rows);
 	b = (int**)malloc(sizeof(int*)*rows);
@@ -40,6 +41,22 @@ Matrix(int rows, int cols)
 	}
 }
 
+void
+delay(int t)
+{
+	long micro = 0;
+
+	struct timeval tc,now;
+
+	gettimeofday(&now, NULL);
+
+	while(micro < t)
+	{
+		gettimeofday(&tc, NULL);
+		micro = tc.tv_sec*1000000L + tc.tv_usec - now.tv_sec*1000000L - now.tv_usec;
+	}
+
+}
 
 void *
 thread_count (void *arg)
@@ -60,23 +77,6 @@ thread_count (void *arg)
 			delay(10);
 		}
 	}
-}
-
-void
-delay(int t)
-{
-	long micro = 0;
-
-	struct timeval tc,now;
-
-	gettimeofday(&now, NULL);
-
-	while(micro < t)
-	{
-		gettimeofday(&tc, NULL);
-		micro = tc.tv_sec*1000000L + tc.tv_usec - now.tv_sec*1000000L - now.tv_usec;
-	}
-
 }
 
 void 
@@ -102,8 +102,6 @@ main()
 	
 	struct timeval start, finish;
 
-	srand(MatrixNumber);
-
 	Matrix(MatrixNumber, MatrixNumber);
 
 	gettimeofday(&start, NULL);
@@ -113,16 +111,11 @@ main()
 
 	for( i = 0; i < NO_THREAD; i++ )
 		pthread_join( tid[ i ], NULL );
-
 	
 	gettimeofday(&finish, NULL);
 	
 	printf("Running Time: %d miliseconds\n", finish.tv_sec*1000 + finish.tv_usec/1000 - start.tv_sec*1000 - start.tv_usec/1000);
-	
-	printf("%ld\t %ld\t %ld\t %ld\n",a[0][0], a[0][MatrixNumber-1], a[MatrixNumber-1][0], a[MatrixNumber-1][MatrixNumber-1]);
-	printf("%ld\t %ld\t %ld\t %ld\n",b[0][0], b[0][MatrixNumber-1], b[MatrixNumber-1][0], b[MatrixNumber-1][MatrixNumber-1]);
-	printf("%ld\t %ld\t %ld\t %ld\n",c[0][0], c[0][MatrixNumber-1], c[MatrixNumber-1][0], c[MatrixNumber-1][MatrixNumber-1]);
-	
+
 	return 0;
 }
 
