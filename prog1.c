@@ -13,8 +13,7 @@ void
 Matrix(int rows, int cols)
 {
 	int i, j;
-	srand(MatrixNumber);
-	
+
 	a = (int**)malloc(sizeof(int*)*rows);
 	b = (int**)malloc(sizeof(int*)*rows);
 	c = (int**)malloc(sizeof(int*)*rows);
@@ -56,33 +55,17 @@ delay(int t)
 
 
 void 
-printMatrix(int **pArray, int rows, int cols)
-{
-	int i;
-	int j;
-	
-	for(i = 0; i < rows; i++)
-	{
-		for(j = 0; j < cols; j++)
-		{
-			printf("%d\t", pArray[i][j]);
-		}
-		printf("\n");
-	}
-}
-
-
-
-void 
 main()
 {
 	struct timeval start, finish;
 	int i, j, k;
 
+	srand(MatrixNumber);
+
 	Matrix(MatrixNumber, MatrixNumber);
 
 	gettimeofday(&start, NULL);
-
+	
 	for(i = 0;i < MatrixNumber;i++)
 	{
 		for(j = 0; j < MatrixNumber;j++)
@@ -94,12 +77,8 @@ main()
 			delay(10);
 		}
 	}
-
+	
 	gettimeofday(&finish, NULL);
-
+	
 	printf("Running Time: %d miliseconds\n", finish.tv_sec*1000 + finish.tv_usec/1000 - start.tv_sec*1000 - start.tv_usec/1000);
 }
-
-
-
-
