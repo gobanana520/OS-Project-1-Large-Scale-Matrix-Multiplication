@@ -116,6 +116,18 @@ main()
 	
 	printf("Running Time: %d miliseconds\n", finish.tv_sec*1000 + finish.tv_usec/1000 - start.tv_sec*1000 - start.tv_usec/1000);
 
+	free(a);
+	for(i=0; i<MatrixNumber; i++) {
+	    free(*(a+i));
+	}
+	free(b);
+	for(i=0; i<MatrixNumber; i++) {
+ 	   free(*(b+i));
+	}
+	free(c);
+	for(i=0; i<MatrixNumber; i++) {
+ 	   free(*(c+i));
+	}
 	return 0;
 }
 
