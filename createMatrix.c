@@ -5,7 +5,7 @@
 
 
 
-#define MatrixNumber 100
+#define MatrixNumber 10
 
 void printMatrix(int *pArray, int rows, int cols)
 {
@@ -22,33 +22,15 @@ void printMatrix(int *pArray, int rows, int cols)
 	}
 }
 
-void delay(int t)
-{
-	long micro = 0;
-
-	struct timeval tc,now;
-
-	gettimeofday(&now, NULL);
-
-	while(micro < t)
-	{
-		gettimeofday(&tc, NULL);
-		micro = tc.tv_sec*1000000L + tc.tv_usec - now.tv_sec*1000000L - now.tv_usec;
-	}
-
-}
-
 void main()
 {
 	int **a, **b,**c;
-	struct timeval start, finish;
 	int i, j, k;
 	
 	srand( (unsigned)time( NULL ) );
 	
 	a = (int**)malloc(sizeof(int*)*MatrixNumber);
 	b = (int**)malloc(sizeof(int*)*MatrixNumber);
-	c = (int**)malloc(sizeof(int*)*MatrixNumber);
 
 	for(i = 0; i < MatrixNumber; i++)
 	{
@@ -56,8 +38,6 @@ void main()
 		b[i]=(int*)malloc(sizeof(int)*MatrixNumber);
 		c[i]=(int*)malloc(sizeof(int)*MatrixNumber);
 	}
-	
-	gettimeofday(&start, NULL);
 	
 	for(i = 0;i < MatrixNumber;i++)
 	{
@@ -68,27 +48,8 @@ void main()
 		}
 	}
 
-	
-	for(i = 0;i < MatrixNumber;i++)
-	{
-		for(j = 0; j < MatrixNumber;j++)
-		{
-			for(k = 0; k < MatrixNumber;k++)
-			{
-				c[i][j] += a[i][k] * c[k][j];
-			}
-			delay(10);
-		}
-	}
-
-	
-	gettimeofday(&finish, NULL);
-	
-	printf("Running Time: %d miliseconds\n", finish.tv_sec*1000 + finish.tv_usec/1000 - start.tv_sec*1000 - start.tv_usec/1000);
-
-	printMatrix(A,MatrixNumber,MatrixNumber);
-	printMatrix(B,MatrixNumber,MatrixNumber);
-	printMatrix(C,MatrixNumber,MatrixNumber);
+	printMatrix(a,MatrixNumber,MatrixNumber);
+	printMatrix(b,MatrixNumber,MatrixNumber);
 
 }
 
