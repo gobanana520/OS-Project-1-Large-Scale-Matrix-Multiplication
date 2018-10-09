@@ -2,25 +2,33 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int main(void) {
-	int micro;
-	struct timeval ps,now;
-	gettimeofday(&ps, NULL);
+void 
+delay(int t)
+{
+	long micro = 0;
 
-	printf("ps_sec = %ld, ps_usec = %ls \n", ps.tv_sec, ps.tv_usec);
+	struct timeval tc,now;
 
-	while(micro<10)
+	gettimeofday(&now, NULL);
+
+	while(micro < t)
 	{
-		gettimeofday(&now, NULL);
-		if(now.tv_sec>ps.tv_sec):
-			micro=1000000L;
-		else:
-			micro=0;
-		micro+=now.tv_usec-ps.tv_usec;
+		gettimeofday(&tc, NULL);
+		micro = tc.tv_sec*1000000L + tc.tv_usec - now.tv_sec*1000000L - now.tv_usec;
 	}
+
+}
+
+void 
+main()
+{
+	struct timeval start, finish;
 	
-	printf("now_sec = %ld, now_usec = %ls \n", now.tv_sec, now.tv_usec);
+	gettimeofday(&start, NULL);
+	
+	delay(10);
 
+	gettimeofday(&finish, NULL);
 
-	return 0;
+	printf("Running Time: %d miliseconds\n", finish.tv_sec*1000000 + finish.tv_usec - start.tv_sec*1000000 - start.tv_usec);
 }
