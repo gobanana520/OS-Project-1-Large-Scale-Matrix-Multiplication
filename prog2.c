@@ -1,24 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <pthread.h>
-#include <unistd.h>
+#include <time.h> 
 #include <sys/time.h>
 
-#define MatrixNumber 		1000
-#define NO_THREAD		25
-#define STEP 			(MatrixNumber/NO_THREAD)
 
+
+#define MatrixNumber 100
 int **a, **b,**c;
-
-pthread_t tid[32];
 
 
 void
 Matrix(int rows, int cols)
 {
 	int i, j;
-	srand(MatrixNumber);
 
 	a = (int**)malloc(sizeof(int*)*rows);
 	b = (int**)malloc(sizeof(int*)*rows);
@@ -41,7 +35,8 @@ Matrix(int rows, int cols)
 	}
 }
 
-void
+
+void 
 delay(int t)
 {
 	long micro = 0;
@@ -58,15 +53,20 @@ delay(int t)
 
 }
 
-void *
-thread_count (void *arg)
+
+void 
+main()
 {
-	int n = arg;
-	int head = (n * STEP);
-	int end = (head + STEP);
+	struct timeval start, finish;
 	int i, j, k;
+
+	srand(MatrixNumber);
+
+	Matrix(MatrixNumber, MatrixNumber);
+
+	gettimeofday(&start, NULL);
 	
-	for(i = head;i < end;i++)
+	for(i = 0;i < MatrixNumber;i++)
 	{
 		for(j = 0; j < MatrixNumber;j++)
 		{
@@ -77,48 +77,8 @@ thread_count (void *arg)
 			delay(10);
 		}
 	}
-}
-
-void 
-printMatrix(int **pArray, int rows, int cols)
-{
-	int i;
-	int j;
-	
-	for(i = 0; i < rows; i++)
-	{
-		for(j = 0; j < cols; j++)
-		{
-			printf("%d\t", pArray[i][j]);
-		}
-		printf("\n");
-	}
-}
-
-int
-main()
-{
-	int i,j;
-	
-	struct timeval start, finish;
-
-	Matrix(MatrixNumber, MatrixNumber);
-
-	gettimeofday(&start, NULL);
-
-	for( i = 0; i < NO_THREAD; i++ )
-		pthread_create( &tid[ i ], NULL, thread_count, (void *) i );
-
-	for( i = 0; i < NO_THREAD; i++ )
-		pthread_join( tid[ i ], NULL );
 	
 	gettimeofday(&finish, NULL);
 	
 	printf("Running Time: %d miliseconds\n", finish.tv_sec*1000 + finish.tv_usec/1000 - start.tv_sec*1000 - start.tv_usec/1000);
-
-	return 0;
 }
-
-
-
-
