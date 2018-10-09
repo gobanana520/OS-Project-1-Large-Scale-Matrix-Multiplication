@@ -7,7 +7,7 @@
 
 #define MatrixNumber 10
 
-void printMatrix(int *pArray, int rows, int cols)
+void printMatrix(int **Array, int rows, int cols)
 {
 	int i;
 	int j;
@@ -16,7 +16,7 @@ void printMatrix(int *pArray, int rows, int cols)
 	{
 		for(j = 0; j < cols; j++)
 		{
-			printf("%d\t", *pArray+i*cols+j);
+			printf("%d\t", Array[i][j] );
 		}
 		printf("\n");
 	}
@@ -24,19 +24,16 @@ void printMatrix(int *pArray, int rows, int cols)
 
 void main()
 {
-	int **a, **b,**c;
-	int i, j, k;
+	int **a;
+	int i, j;
 	
 	srand( (unsigned)time( NULL ) );
 	
 	a = (int**)malloc(sizeof(int*)*MatrixNumber);
-	b = (int**)malloc(sizeof(int*)*MatrixNumber);
 
 	for(i = 0; i < MatrixNumber; i++)
 	{
 		a[i]=(int*)malloc(sizeof(int)*MatrixNumber);
-		b[i]=(int*)malloc(sizeof(int)*MatrixNumber);
-		c[i]=(int*)malloc(sizeof(int)*MatrixNumber);
 	}
 	
 	for(i = 0;i < MatrixNumber;i++)
@@ -44,12 +41,10 @@ void main()
 		for(j = 0; j < MatrixNumber;j++)
 		{
 			a[i][j] = rand()%2000+1;
-			b[i][j] = rand()%2000+1;
 		}
 	}
-
+	
 	printMatrix(a,MatrixNumber,MatrixNumber);
-	printMatrix(b,MatrixNumber,MatrixNumber);
-
+	printf("%d\n", a[0][0]);
 }
 
