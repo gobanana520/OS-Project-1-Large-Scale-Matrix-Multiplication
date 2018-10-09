@@ -62,7 +62,7 @@ delay(int t)
 void *
 thread_count (void *arg)
 {
-	int n = arg;
+	long n = (long)arg;
 	int head = (n * STEP);
 	int end = (head + STEP);
 	int i, j, k;
@@ -84,7 +84,7 @@ thread_count (void *arg)
 int
 main()
 {
-	int i,j;
+	long i,j;
 	
 	struct timeval start, finish;
 
