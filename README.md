@@ -15,12 +15,8 @@ Prog1.c will solve the matrix multiplication program using a single thread and p
 Matrices A and B are generated using independent random numbers in the range 1 to 2000. And the result produced by prog1 and prog2 are identical. 
  
 Measure the time taken by each of the two programs and report the result. It can be as simple as capturing the dialogue using script as shown below: 
-```sh 
-script output 
-date 
-prog1 
-date 
-prog2 
-date 
-exit
+```sh  
+date && prog1 
+date && prog2 
+date
 ```
